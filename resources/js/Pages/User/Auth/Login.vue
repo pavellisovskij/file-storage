@@ -47,7 +47,7 @@ const submit = () => {
             </div>
 
             <div class="form-check" style="text-align: left !important;">
-                <BreezeCheckbox name="remember" v-model:checked="form.remember" />
+                <BreezeCheckbox name="remember" id="remember" v-model:checked="form.remember" />
                 <label class="form-check-label" for="remember">
                     Remember me
                 </label>

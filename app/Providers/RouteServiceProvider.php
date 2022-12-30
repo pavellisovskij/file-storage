@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\File;
+use App\Models\Folder;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -17,7 +19,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/dashboard';
+    public const HOME = '/my-storage';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
@@ -35,6 +37,27 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
+        });
+
+        Route::bind('folder', function ($value) {
+            return Folder::where([
+                ['encoded_name', $value],
+                ['user_id', auth()->id()]
+            ])->firstOrFail();
+        });
+
+        Route::bind('parent', function ($value) {
+            return Folder::where([
+                ['encoded_name', $value],
+                ['user_id', auth()->id()]
+            ])->firstOrFail();
+        });
+
+        Route::bind('file', function ($value) {
+            return File::where([
+                ['encoded_name', $value],
+                ['user_id', auth()->id()]
+            ])->firstOrFail();
         });
     }
 
